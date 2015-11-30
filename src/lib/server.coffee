@@ -2,7 +2,6 @@ Path         = require 'path'
 Fs           = require 'fs'
 Net          = require 'net'
 MkdirP       = require 'mkdirp'
-ChildProcess = require 'child_process'
 EventEmitter = (require 'events').EventEmitter
 
 USERNAME = 'kb'
@@ -10,9 +9,8 @@ SOCKET_PATH = "/tmp/#{USERNAME}/nw-notify.sock"
 
 module.exports = class NotifyDaemon extends EventEmitter
 
-	handle_command: ->
-		console.log Object.keys(window)
-		@emit 'message', arguments
+	handle_command: (msg) ->
+		@emit 'message', msg
 
 	start : ->
 		@_do_start()

@@ -1,5 +1,6 @@
 NW_VERSION = v0.12.3
 COFFEE_TARGETS = $(shell find src/lib -type f -name "*.coffee"|sed 's,src/,,'|sed 's,\.coffee,\.js,')
+SUPERVISOR = supervisor -e coffee,json -x make
 
 RM = rm -rfv
 MKDIR = mkdir -p
@@ -22,3 +23,10 @@ lib/%.js: src/lib/%.coffee
 
 clean:
 	$(RM) lib
+
+run: lib
+	./dist/nwjs-$(NW_VERSION)-linux-x64/nw --verbose .
+
+dev-run: lib
+	$(SUPERVISOR) -w src/lib,package.json run
+

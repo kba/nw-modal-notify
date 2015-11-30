@@ -2,6 +2,11 @@
   "name": "nw-demo",
   "version": "0.0.1",
   "main": "index.html",
+  "window": {
+    "title": "nw-modal-notify",
+    "show": true,
+    "toolbar": false
+  },
   "dependencies": {
     "jade": "^1.11.0",
     "jquery": "^2.1.4"
