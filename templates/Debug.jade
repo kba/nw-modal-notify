@@ -1,0 +1,15 @@
+div(style="font-size: 10pt")
+	table
+		tr
+			th keys
+			td= Object.keys(locals)
+		tr
+			th config
+			td
+				pre= JSON.stringify(config, null, 2)
+		tr
+			th PID
+			td= PID
+		tr
+			th WID
+			td= WID

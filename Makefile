@@ -1,6 +1,7 @@
 NW_VERSION = v0.12.3
 COFFEE_TARGETS = $(shell find src/lib -type f -name "*.coffee"|sed 's,src/,,'|sed 's,\.coffee,\.js,')
-SUPERVISOR = supervisor -e coffee,json -x make
+SUPERVISOR = supervisor -e coffee,json,jade -x make -w src/lib,templates,package.json run
+NWJS = ./dist/nwjs-$(NW_VERSION)-linux-x64/nw --enable-transparent-visuals --disable-gpu
 
 RM = rm -rfv
 MKDIR = mkdir -p
@@ -25,8 +26,8 @@ clean:
 	$(RM) lib
 
 run: lib
-	./dist/nwjs-$(NW_VERSION)-linux-x64/nw --verbose .
+	$(NWJS) .
 
 dev-run: lib
-	$(SUPERVISOR) -w src/lib,package.json run
+	$(SUPERVISOR)
 

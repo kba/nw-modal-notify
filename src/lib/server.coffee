@@ -20,9 +20,14 @@ module.exports = class NotifyDaemon extends EventEmitter
 			@socket = sock
 			@socket.on 'data', (data) =>
 				str = data.toString().replace /\n/g, ''
-				args = str.split /\s+/
-				console.log "RECEIVED: [#{args}]"
-				@handle_command(args)
+				_tokens = str.split /\s+/
+				cmd = _tokens[0] or 'debug'
+				locals = {}
+				for i,kvPair of _tokens.slice(1)
+					[k,v] = kvPair.split('=')
+					locals[k] = v
+				console.log "RECEIVED: [#{cmd}, #{JSON.stringify locals}]"
+				@handle_command([cmd, locals])
 		@server.on 'listening', =>
 			@is_started = true
 			return Fs.chmod(SOCKET_PATH, 0o0777)

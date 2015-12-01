@@ -1,9 +1,12 @@
+$    = require 'jquery'
+Gui  = require 'nw.gui'
+Fs   = require 'fs'
+
 NotifyDaemon = require './lib/server'
 NotifyWindow = require './lib/window'
-$ = require 'jquery'
-Gui = require 'nw.gui'
+CONFIG       = require './lib/config'
 
-NWIN = new NotifyWindow(Gui, 'body')
+NWIN = new NotifyWindow(Gui, CONFIG)
 daemon = new NotifyDaemon()
 
 _handle_debug = () ->
@@ -18,11 +21,16 @@ _handle_debug = () ->
 		pre.append("\nWINDOW PID: #{NWIN.WID}")
 	return pre
 
+plugins = {}
+for plugin in Fs.readdirSync "#{CONFIG.libdir}/plugin"
+	plugin = plugin.substring(0, plugin.indexOf('.'))
+	plugins[plugin] = new(require "#{CONFIG.libdir}/plugin/#{plugin}")(CONFIG)
+
 $ ->
-	daemon.on 'message', (args) ->
-		if args[0] is 'debug'
-			NWIN.showFor 2000, _handle_debug()
+	daemon.on 'message', ([plugin, locals]) ->
+		if plugin of plugins
+			NWIN.show plugins[plugin], locals
 		else
-			console.error "unhandled command", args[0]
+			console.error "Unknown Plugin '#{plugin}'", plugin
 
 daemon.start()
