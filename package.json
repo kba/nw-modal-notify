@@ -8,7 +8,7 @@
     "visible-on-all-workspaces": true,
     "show": false,
     "width": 250,
-    "toolbar": true,
+    "toolbar": false,
     "frame": false,
     "transparent": true
   },
