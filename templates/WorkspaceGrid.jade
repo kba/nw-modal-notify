@@ -1,0 +1,11 @@
+.notification
+	if icon
+		.center
+			img(src="#{icon}")
+	table
+		- row_idx = 0
+		while row_idx < nr_rows
+			- col_idx = 0
+			tr
+				while col_idx < nr_cols
+					td= grid[row_idx][col_idx]
