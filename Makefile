@@ -6,7 +6,7 @@ NW_PLATFORM = linux-x64
 COFFEE_TARGETS = $(shell find src/lib -type f -name "*.coffee"|sed 's,src/,,'|sed 's,\.coffee,\.js,')
 
 SUPERVISOR = supervisor -e coffee,json,jade -x make -w src/lib,templates,package.json run
-NWJS = ./deps/nwjs-$(NW_VERSION)/nw --enable-transparent-visuals --disable-gpu
+NWJS = ./deps/nwjs-$(NW_VERSION)-$(NW_PLATFORM)/nw --enable-transparent-visuals --disable-gpu
 
 RM = rm -rfv
 MKDIR = mkdir -p
